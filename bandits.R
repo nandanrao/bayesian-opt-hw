@@ -48,7 +48,7 @@ runner <- function(K, policy, n) {
     list(bandits = bandits, events = events, regret = regret(bandits, events))
 }
 
-avg.greedy <- function(eps, n=200, m=15) {
+avg.greedy <- function(eps, n=400, m=15) {
     m <- sapply(1:m, function (e) runner(10, function (i) epsilon.greedy(i, eps), n)$regret)
     data.frame(time = 1:n, regret = apply(m, 1, mean))
 }
@@ -57,10 +57,10 @@ plot.greedys <- function() {
     epsilons <- seq(0.02,0.1,.02)
     df <- data.frame()
     for (e in epsilons){
-        df <- rbind(df, avg.greedy(e) %>% mutate(eps = e))
+        df <- rbind(df, avg.greedy(e) %>% mutate(eps = as.factor(e)))
     }
     df %>%
-        ggplot(aes(x = time, y = regret, color = as.factor(eps))) +
+        ggplot(aes(x = time, y = regret, color = eps)) +
         geom_line()
 }
 

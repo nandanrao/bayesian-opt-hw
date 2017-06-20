@@ -18,12 +18,8 @@ posterior <- function(X.train, Y.train, X.test, k = se.kernel) {
     list(y = mvrnorm(1, Mean, Sigma), mean = Mean, var = diag(Sigma))
 }
 
-prior <- function(mean, Sigma) mvrnorm(1, mean, Sigma)
-
 draw <- function (n, k = se.kernel, X = c(), Y = c()) {
     X.test <- sort(runif(n, 0, 10))
-    ## Sigma <- pdist(X.test, X.test, k)
-    ## mvrnorm(1, rep(0, n), Sigma)
     p <- posterior(X, Y, X.test, se.kernel)
     data.frame(x = X.test, y = p$y, mean = p$mean, var = p$var)
 }
